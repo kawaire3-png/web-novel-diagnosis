@@ -710,6 +710,7 @@
     const questionTitle = document.querySelector("#question-title");
     const choicesEl = document.querySelector("#choices");
     const xShare = document.querySelector("#x-share");
+    const shareUrl = "https://kawaire3-png.github.io/web-novel-diagnosis/";
 
     function show(screen) {
       [startScreen, questionScreen, resultScreen].forEach((item) => {
@@ -771,7 +772,7 @@
       document.querySelector("#comment").textContent = result.comment;
 
       const shareText = `１２問で診断：私が書くWeb小説は「${result.name}」タイプ\n${result.title}\nジャンル：${result.genre}\n主人公属性：${result.hero}\n#Web小説家診断`;
-      xShare.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+      xShare.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
       show(resultScreen);
     }
 

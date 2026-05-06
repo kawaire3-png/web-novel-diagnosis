@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Web小説家診断</title>
-  <meta name="description" content="12問で、あなたのWeb小説家タイプを勝手に診断します。">
+  <meta name="description" content="12問で、あなたが書くWeb小説のジャンルと主人公属性を勝手に診断します。">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Web小説家診断">
-  <meta property="og:description" content="12問で、あなたのWeb小説家タイプを勝手に診断します。">
+  <meta property="og:description" content="12問で、あなたが書くWeb小説のジャンルと主人公属性を勝手に診断します。">
   <meta property="og:url" content="https://kawaire3-png.github.io/web-novel-diagnosis/">
-  <meta property="og:image" content="https://kawaire3-png.github.io/web-novel-diagnosis/assets/og-image-v2.png">
+  <meta property="og:image" content="https://kawaire3-png.github.io/web-novel-diagnosis/assets/og-image-v3.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Web小説家診断">
-  <meta name="twitter:description" content="12問で、あなたのWeb小説家タイプを勝手に診断します。">
-  <meta name="twitter:image" content="https://kawaire3-png.github.io/web-novel-diagnosis/assets/og-image-v2.png">
+  <meta name="twitter:description" content="12問で、あなたが書くWeb小説のジャンルと主人公属性を勝手に診断します。">
+  <meta name="twitter:image" content="https://kawaire3-png.github.io/web-novel-diagnosis/assets/og-image-v3.png">
   <style>
     :root {
       color-scheme: light;
@@ -344,9 +344,9 @@
       <div class="card start-card">
         <p class="eyebrow">なろうカクヨム度100%</p>
         <h1>Web小説家診断</h1>
-        <p class="lead">12問で、あなたがWeb小説になったときのジャンルと主人公属性を勝手に診断します。</p>
+        <p class="lead">12問で、あなたが書くWeb小説のジャンルと主人公属性を勝手に診断します。</p>
         <button class="primary" id="start-button" type="button">診断スタート</button>
-        <p class="note">※ネタ診断です。<br>※結果のあらすじはだいぶ偏見です。</p>
+        <p class="note">※ネタ診断です。<br>※結果コメントはだいぶ偏見です。</p>
       </div>
     </section>
 
@@ -391,7 +391,7 @@
             <p class="info-text" id="hook"></p>
           </div>
           <div class="info-block">
-            <p class="section-label">偏見コメント</p>
+            <p class="section-label">書き手向け偏見コメント</p>
             <p class="info-text" id="comment"></p>
           </div>
         </div>
@@ -413,7 +413,7 @@
         hero: "善人ぶってるけど効率厨",
         synopsis: "事故で異世界へ転生したあなたは、なぜか世界の裏側まで見える管理者スキルを獲得。村の困りごとを片づけているだけなのに、王都と魔王軍が勝手にざわつき始める。",
         hook: "圧倒的解決力と本人の鈍感さ",
-        comment: "会議では黙ってるのに、最後に全部ひっくり返すタイプ",
+        comment: "導入3話以内に便利スキルを渡して、読者のストレスを最短で消しがち",
         colors: ["#ff4f2e", "#ffb13d", "#1c1b1b"]
       },
       exile: {
@@ -424,7 +424,7 @@
         hero: "低姿勢な復讐予約済み職人",
         synopsis: "役立たずと呼ばれパーティーを追放されたあなた。辺境で古代魔法の修理屋を始めたところ、壊れていたのは世界のほうだったと気づいてしまう。",
         hook: "静かな実力証明と遅れてくる評価",
-        comment: "怒ってない顔で一番根に持っている",
+        comment: "追放シーンの理不尽さを丁寧に積んで、後半のざまぁを気持ちよくしがち",
         colors: ["#35d6b8", "#4453ff", "#171d24"]
       },
       villainess: {
@@ -435,7 +435,7 @@
         hero: "礼儀正しい危機管理モンスター",
         synopsis: "目覚めると乙女ゲームの悪役令嬢。破滅フラグを折るため、あなたは社交界、学園、婚約者、全方面に根回しを開始する。",
         hook: "上品な会話で盤面を制圧する気持ちよさ",
-        comment: "謝罪文を書かせたら国をひとつ救う",
+        comment: "会話劇と根回しで盤面を動かすので、敵役の自滅を書くのがうまそう",
         colors: ["#e85da8", "#ffc857", "#261522"]
       },
       slowlife: {
@@ -446,7 +446,7 @@
         hero: "穏やかな生活防衛ガチ勢",
         synopsis: "都会に疲れたあなたは辺境で薬草畑を始める。小さなポーション作りのはずが、なぜか王族の病と国家予算まで治してしまう。",
         hook: "生活感とチート生産のちょうどいい温度",
-        comment: "休みたいと言いながら設備投資が止まらない",
+        comment: "畑、工房、食卓みたいな生活ディテールで読者を居座らせるタイプ",
         colors: ["#8bd450", "#ffd166", "#1e271b"]
       },
       saint: {
@@ -457,7 +457,7 @@
         hero: "我慢強すぎる高火力ヒーラー",
         synopsis: "能力を疑われ神殿を追われたあなたは、誰にも期待されていない皇子に拾われる。ふたりの小さな信頼が、やがて国の呪いをほどいていく。",
         hook: "報われる献身と静かな逆転",
-        comment: "優しいけど、限界を越えると聖なる圧が出る",
+        comment: "傷ついた人が少しずつ報われる流れを書くと、感情の着地が強いタイプ",
         colors: ["#7fd1ff", "#f6f0c7", "#172432"]
       },
       weakest: {
@@ -468,7 +468,7 @@
         hero: "自己評価だけ低い戦術兵器",
         synopsis: "最弱職として笑われたあなたのスキルは、ただの収納魔法。しかし中に入れたものの時間を止める力が、迷宮攻略の常識を壊していく。",
         hook: "地味スキルの解釈違いで勝つ快感",
-        comment: "自分を普通だと思っている一番危ない人",
+        comment: "地味スキルの使い道を一段ずらして、読者に『その手があったか』を出しがち",
         colors: ["#b1ff6a", "#5ac8fa", "#111b1a"]
       },
       streamer: {
@@ -479,7 +479,7 @@
         hero: "空気を読む戦闘実況者",
         synopsis: "趣味で始めたダンジョン配信が、謎のレアボス遭遇で急上昇。あなたはコメント欄の無責任な助言を武器に、都市伝説級の階層へ潜っていく。",
         hook: "ライブ感、コメント芸、現代的な成り上がり",
-        comment: "ピンチになるほど声が落ち着く配信者",
+        comment: "コメント欄、切り抜き、炎上まで含めて現代っぽい熱量を作れるタイプ",
         colors: ["#7c5cff", "#00e0ff", "#151326"]
       },
       occult: {
@@ -490,7 +490,7 @@
         hero: "観察眼で生き残る巻き込まれ役",
         synopsis: "失せ物探しの依頼を受けたあなたは、人間ではない相棒と組むことに。些細な違和感を拾うほど、街の裏側に潜む怪異のルールが見えてくる。",
         hook: "湿度のある関係性と謎解きの余韻",
-        comment: "怖い話を聞きながら証拠写真を拡大する人",
+        comment: "怪異の怖さより、相棒との距離感で読者を刺しにいくタイプ",
         colors: ["#ff6b6b", "#4ecdc4", "#12131b"]
       },
       loop: {
@@ -501,7 +501,7 @@
         hero: "笑顔で二周目の伏線を置く人",
         synopsis: "処刑された瞬間、あなたは事件の始まりへ巻き戻る。失敗の記憶だけを武器に、今度こそ大切な人を救い、黒幕を舞台から引きずり下ろす。",
         hook: "同じ場面の意味が変わっていく快感",
-        comment: "予定表に復讐と休憩を同じ筆圧で書くタイプ",
+        comment: "同じ場面を別角度で回収するのが好きで、伏線メモが増えがち",
         colors: ["#d946ef", "#fb7185", "#1a1020"]
       },
       tamer: {
@@ -512,7 +512,7 @@
         hero: "懐かれるほど戦力が増える天然",
         synopsis: "魔物を従えられない欠陥テイマーと呼ばれたあなた。しかし本当の才能は、弱った魔物の心をほどくことだった。小さな出会いが世界最強の群れになっていく。",
         hook: "癒やしと戦力インフレの同居",
-        comment: "本人より周囲のほうが過保護で強い",
+        comment: "癒やし場面と戦力インフレを同時に進めて、読者の警戒心を溶かすタイプ",
         colors: ["#f59e0b", "#84cc16", "#1b1a12"]
       },
       librarian: {
@@ -523,7 +523,7 @@
         hero: "本棚で世界を殴る参謀",
         synopsis: "転移先で任されたのは誰も読めない禁書庫。あなたは本に残された歴史の矛盾を読み解き、剣ではなく知識で国の危機をほどいていく。",
         hook: "調べ物がそのまま必殺技になる気持ちよさ",
-        comment: "検索履歴だけでラスボスに近づく人",
+        comment: "調査パートを気持ちよく読ませるために、資料と謎の置き方へ凝りがち",
         colors: ["#a78bfa", "#facc15", "#171421"]
       },
       cook: {
@@ -534,7 +534,7 @@
         hero: "厨房から外交を動かす生活者",
         synopsis: "剣も魔法も平凡なあなたが持ち込んだのは、ただの家庭料理。けれど温かい一皿は冒険者、貴族、魔族まで巻き込み、街の空気を変えていく。",
         hook: "おいしさで関係がほどけていく安心感",
-        comment: "戦争より先に仕込み時間を気にする",
+        comment: "料理の湯気と人間関係の雪解けを同じテンポで書けるタイプ",
         colors: ["#ef4444", "#f97316", "#211611"]
       },
       merchant: {
@@ -545,7 +545,7 @@
         hero: "感情も帳簿も読める交渉屋",
         synopsis: "異世界で戦闘スキルを持たなかったあなたは、市場の歪みに目をつける。小さな取引を重ねるうち、商会は国の命綱になっていく。",
         hook: "数字と交渉で盤面を取る快感",
-        comment: "善意にも見積書を添えるタイプ",
+        comment: "交渉、相場、物流で勝つ展開が好きで、戦闘なしの制圧を書きたがるタイプ",
         colors: ["#22c55e", "#eab308", "#101b13"]
       },
       blacksmith: {
@@ -556,7 +556,7 @@
         hero: "無口なこだわり過多クリエイター",
         synopsis: "戦えない鍛冶師として軽んじられたあなたは、素材の声を聞く力を持っていた。修理した道具が、冒険者たちの運命を少しずつ変えていく。",
         hook: "道具づくりが英雄譚を支える熱さ",
-        comment: "褒められるより工程を見てほしい人",
+        comment: "完成品より工程描写に熱が入り、道具ひとつに履歴を背負わせがち",
         colors: ["#f97316", "#94a3b8", "#181512"]
       },
       beast: {
@@ -567,7 +567,7 @@
         hero: "空気を翻訳しすぎる仲裁役",
         synopsis: "言葉が通じない獣人国へ送られたあなたは、なぜか本音だけを聞き取れる。誤解だらけの国境で、会話ひとつが戦争と恋を止めていく。",
         hook: "言えない本音が少しずつ届くじれったさ",
-        comment: "場を丸くするほど自分の胃が削れる",
+        comment: "言えない本音と誤解の解消で、じれったい関係性を育てるのが得意そう",
         colors: ["#fb923c", "#38bdf8", "#1c1612"]
       },
       academy: {
@@ -578,7 +578,7 @@
         hero: "納得するまで諦めない検証型主人公",
         synopsis: "才能なしと判定されたあなたは、現代魔法に適性がないだけだった。補習室の片隅で古代式を再現し、学園の常識をひとつずつ塗り替える。",
         hook: "努力と発見がきちんと報われる高揚感",
-        comment: "テスト範囲外で満点を取りにいく",
+        comment: "努力と検証の積み上げで逆転するので、読者に納得感を渡すのがうまいタイプ",
         colors: ["#60a5fa", "#c084fc", "#121827"]
       }
     };
@@ -770,7 +770,7 @@
       document.querySelector("#hook").textContent = result.hook;
       document.querySelector("#comment").textContent = result.comment;
 
-      const shareText = `私は「${result.name}」です\n${result.title}\nジャンル：${result.genre}\n#Web小説家診断`;
+      const shareText = `私が書くWeb小説は「${result.name}」タイプ\n${result.title}\nジャンル：${result.genre}\n#Web小説家診断`;
       xShare.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
       show(resultScreen);
     }

@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web小説化診断</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #5c6870;
+      --panel: #202020;
+      --panel-soft: #303030;
+      --text: #f7f7f3;
+      --muted: #c9c2bb;
+      --line: #474747;
+      --accent: #ff4f2e;
+      --accent-2: #35d6b8;
+      --paper: #fff9ed;
+      --ink: #161514;
+      --radius: 28px;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255, 79, 46, .13), transparent 28rem),
+        linear-gradient(160deg, #69757d 0%, var(--bg) 46%, #4d5961 100%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 22px;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .app {
+      width: min(100%, 420px);
+      min-height: 640px;
+      display: flex;
+      align-items: center;
+    }
+
+    .screen {
+      width: 100%;
+      display: none;
+    }
+
+    .screen.is-active {
+      display: block;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .24);
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    .start-card {
+      padding: 32px 20px 22px;
+    }
+
+    .eyebrow,
+    .progress-label,
+    .section-label {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 8px;
+      font-size: 34px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-top: 12px;
+      font-size: 27px;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    .primary,
+    .choice,
+    .subtle,
+    .share {
+      width: 100%;
+      border: 0;
+      border-radius: 16px;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
+
+    .primary {
+      margin-top: 28px;
+      background: var(--accent);
+      color: white;
+      font-size: 17px;
+    }
+
+    .primary:active,
+    .choice:active,
+    .subtle:active,
+    .share:active {
+      transform: scale(.985);
+    }
+
+    .note {
+      margin-top: 16px;
+      color: #a9a29b;
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .meter {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: #151515;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .meter span {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), #ff9f43);
+      transition: width .22s ease;
+    }
+
+    .choices {
+      display: grid;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .choice {
+      justify-content: flex-start;
+      text-align: left;
+      background: var(--paper);
+      color: var(--ink);
+      border: 2px solid #e8e0d1;
+      padding: 15px 18px;
+      line-height: 1.45;
+      min-height: 60px;
+    }
+
+    .choice:hover,
+    .choice:focus-visible {
+      border-color: var(--accent);
+      outline: 0;
+    }
+
+    .question-footer {
+      display: flex;
+      margin-top: 18px;
+    }
+
+    .subtle {
+      width: auto;
+      min-height: 38px;
+      border-radius: 999px;
+      padding: 0 18px;
+      color: #d4d0ca;
+      border: 1px solid #575757;
+      background: #2a2a2a;
+      font-size: 14px;
+    }
+
+    .result-card {
+      padding: 20px;
+    }
+
+    .result-code {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .badge {
+      border: 1px solid #515151;
+      border-radius: 999px;
+      padding: 6px 10px;
+      color: #dad6d0;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .result-title {
+      margin-top: 10px;
+      font-size: 34px;
+      line-height: 1.1;
+      font-weight: 1000;
+    }
+
+    .result-info {
+      margin-top: 22px;
+      border: 1px solid #454545;
+      background: var(--panel-soft);
+      border-radius: 22px;
+      padding: 18px 20px;
+    }
+
+    .info-block {
+      padding: 14px 0;
+      border-bottom: 1px solid #454545;
+    }
+
+    .info-block:first-child {
+      padding-top: 0;
+    }
+
+    .info-block:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .info-text {
+      margin-top: 7px;
+      font-size: 19px;
+      font-weight: 850;
+      line-height: 1.55;
+    }
+
+    .synopsis {
+      font-size: 15px;
+      font-weight: 750;
+      color: #eee8df;
+    }
+
+    .actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .share {
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .again {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid #575757;
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 14px;
+      }
+
+      .card,
+      .result-card {
+        padding: 18px;
+        border-radius: 24px;
+      }
+
+      h1,
+      .result-title {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .choice {
+        padding: 13px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app" aria-live="polite">
+    <section class="screen is-active" id="start-screen">
+      <div class="card start-card">
+        <p class="eyebrow">なろう度100%</p>
+        <h1>Web小説化診断</h1>
+        <p class="lead">12問で、あなたがWeb小説になったときのジャンルと主人公属性を勝手に診断します。</p>
+        <button class="primary" id="start-button" type="button">診断スタート</button>
+        <p class="note">※ネタ診断です。<br>※結果のあらすじはだいぶ偏見です。</p>
+      </div>
+    </section>
+
+    <section class="screen" id="question-screen">
+      <div class="card">
+        <div class="meter" aria-hidden="true"><span id="meter-bar"></span></div>
+        <p class="progress-label" id="progress-label">Q1 / 12</p>
+        <h2 id="question-title"></h2>
+        <div class="choices" id="choices"></div>
+        <div class="question-footer">
+          <button class="subtle" id="back-button" type="button">ひとつ戻る</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="result-screen">
+      <div class="card result-card">
+        <div class="result-code">
+          <p class="eyebrow" id="result-code">RESULT</p>
+          <span class="badge" id="result-badge"></span>
+        </div>
+        <h2 class="result-title" id="result-name"></h2>
+        <div class="result-info">
+          <div class="info-block">
+            <p class="section-label">あなたのWeb小説タイトル</p>
+            <p class="info-text" id="novel-title"></p>
+          </div>
+          <div class="info-block">
+            <p class="section-label">ジャンル</p>
+            <p class="info-text" id="genre"></p>
+          </div>
+          <div class="info-block">
+            <p class="section-label">主人公属性</p>
+            <p class="info-text" id="hero-type"></p>
+          </div>
+          <div class="info-block">
+            <p class="section-label">あらすじ</p>
+            <p class="info-text synopsis" id="synopsis"></p>
+          </div>
+          <div class="info-block">
+            <p class="section-label">読者に刺さるポイント</p>
+            <p class="info-text" id="hook"></p>
+          </div>
+          <div class="info-block">
+            <p class="section-label">偏見コメント</p>
+            <p class="info-text" id="comment"></p>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="share" id="x-share" target="_blank" rel="noopener">Xで結果をシェア</a>
+          <button class="share again" id="again-button" type="button">もう一回やる</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const types = {
+      cheat: {
+        code: "TUEEE",
+        name: "異世界転生チート主人公",
+        title: "転生したら初期スキルが世界管理者でした",
+        genre: "異世界転生 / 無自覚最強",
+        hero: "善人ぶってるけど効率厨",
+        synopsis: "事故で異世界へ転生したあなたは、なぜか世界の裏側まで見える管理者スキルを獲得。村の困りごとを片づけているだけなのに、王都と魔王軍が勝手にざわつき始める。",
+        hook: "圧倒的解決力と本人の鈍感さ",
+        comment: "会議では黙ってるのに、最後に全部ひっくり返すタイプ",
+        colors: ["#ff4f2e", "#ffb13d", "#1c1b1b"]
+      },
+      exile: {
+        code: "BAN",
+        name: "追放された元天才魔導師",
+        title: "追放されたので古代魔法を修理して暮らします",
+        genre: "追放ざまぁ / 魔法研究",
+        hero: "低姿勢な復讐予約済み職人",
+        synopsis: "役立たずと呼ばれパーティーを追放されたあなた。辺境で古代魔法の修理屋を始めたところ、壊れていたのは世界のほうだったと気づいてしまう。",
+        hook: "静かな実力証明と遅れてくる評価",
+        comment: "怒ってない顔で一番根に持っている",
+        colors: ["#35d6b8", "#4453ff", "#171d24"]
+      },
+      villainess: {
+        code: "FLAG",
+        name: "悪役令嬢だけど破滅回避中",
+        title: "断罪イベントまであと百日、胃薬が足りません",
+        genre: "悪役令嬢 / 学園政治",
+        hero: "礼儀正しい危機管理モンスター",
+        synopsis: "目覚めると乙女ゲームの悪役令嬢。破滅フラグを折るため、あなたは社交界、学園、婚約者、全方面に根回しを開始する。",
+        hook: "上品な会話で盤面を制圧する気持ちよさ",
+        comment: "謝罪文を書かせたら国をひとつ救う",
+        colors: ["#e85da8", "#ffc857", "#261522"]
+      },
+      slowlife: {
+        code: "SLOW",
+        name: "田舎スローライフ錬金術師",
+        title: "辺境薬師の昼寝を王都が邪魔してくる",
+        genre: "スローライフ / 生産職",
+        hero: "穏やかな生活防衛ガチ勢",
+        synopsis: "都会に疲れたあなたは辺境で薬草畑を始める。小さなポーション作りのはずが、なぜか王族の病と国家予算まで治してしまう。",
+        hook: "生活感とチート生産のちょうどいい温度",
+        comment: "休みたいと言いながら設備投資が止まらない",
+        colors: ["#8bd450", "#ffd166", "#1e271b"]
+      },
+      saint: {
+        code: "SAINT",
+        name: "冷遇皇子に拾われる聖女",
+        title: "偽聖女と呼ばれた私を、辺境皇子だけが信じた",
+        genre: "聖女 / 溺愛 / 宮廷",
+        hero: "我慢強すぎる高火力ヒーラー",
+        synopsis: "能力を疑われ神殿を追われたあなたは、誰にも期待されていない皇子に拾われる。ふたりの小さな信頼が、やがて国の呪いをほどいていく。",
+        hook: "報われる献身と静かな逆転",
+        comment: "優しいけど、限界を越えると聖なる圧が出る",
+        colors: ["#7fd1ff", "#f6f0c7", "#172432"]
+      },
+      weakest: {
+        code: "LV1",
+        name: "最弱職なのに実は最強",
+        title: "荷物持ちレベル1、収納魔法だけで竜を倒す",
+        genre: "冒険者 / 勘違い最強",
+        hero: "自己評価だけ低い戦術兵器",
+        synopsis: "最弱職として笑われたあなたのスキルは、ただの収納魔法。しかし中に入れたものの時間を止める力が、迷宮攻略の常識を壊していく。",
+        hook: "地味スキルの解釈違いで勝つ快感",
+        comment: "自分を普通だと思っている一番危ない人",
+        colors: ["#b1ff6a", "#5ac8fa", "#111b1a"]
+      },
+      streamer: {
+        code: "LIVE",
+        name: "ダンジョン配信者",
+        title: "深夜ダンジョン配信、コメント欄だけが真実を知っている",
+        genre: "現代ダンジョン / 配信",
+        hero: "空気を読む戦闘実況者",
+        synopsis: "趣味で始めたダンジョン配信が、謎のレアボス遭遇で急上昇。あなたはコメント欄の無責任な助言を武器に、都市伝説級の階層へ潜っていく。",
+        hook: "ライブ感、コメント芸、現代的な成り上がり",
+        comment: "ピンチになるほど声が落ち着く配信者",
+        colors: ["#7c5cff", "#00e0ff", "#151326"]
+      },
+      occult: {
+        code: "CASE",
+        name: "現代怪異バディもの",
+        title: "駅裏相談所の相棒は、人間のふりがうまい",
+        genre: "現代怪異 / バディ / ミステリ",
+        hero: "観察眼で生き残る巻き込まれ役",
+        synopsis: "失せ物探しの依頼を受けたあなたは、人間ではない相棒と組むことに。些細な違和感を拾うほど、街の裏側に潜む怪異のルールが見えてくる。",
+        hook: "湿度のある関係性と謎解きの余韻",
+        comment: "怖い話を聞きながら証拠写真を拡大する人",
+        colors: ["#ff6b6b", "#4ecdc4", "#12131b"]
+      },
+      loop: {
+        code: "LOOP",
+        name: "死に戻り策略家",
+        title: "百回目の処刑台で、ようやく黒幕の名前を知った",
+        genre: "死に戻り / 復讐 / 宮廷陰謀",
+        hero: "笑顔で二周目の伏線を置く人",
+        synopsis: "処刑された瞬間、あなたは事件の始まりへ巻き戻る。失敗の記憶だけを武器に、今度こそ大切な人を救い、黒幕を舞台から引きずり下ろす。",
+        hook: "同じ場面の意味が変わっていく快感",
+        comment: "予定表に復讐と休憩を同じ筆圧で書くタイプ",
+        colors: ["#d946ef", "#fb7185", "#1a1020"]
+      },
+      tamer: {
+        code: "TAME",
+        name: "もふもふ魔物テイマー",
+        title: "追放テイマー、拾った子犬が古代竜でした",
+        genre: "テイマー / もふもふ / 旅",
+        hero: "懐かれるほど戦力が増える天然",
+        synopsis: "魔物を従えられない欠陥テイマーと呼ばれたあなた。しかし本当の才能は、弱った魔物の心をほどくことだった。小さな出会いが世界最強の群れになっていく。",
+        hook: "癒やしと戦力インフレの同居",
+        comment: "本人より周囲のほうが過保護で強い",
+        colors: ["#f59e0b", "#84cc16", "#1b1a12"]
+      },
+      librarian: {
+        code: "BOOK",
+        name: "異世界図書館司書",
+        title: "禁書庫の司書は、物語の結末を書き換える",
+        genre: "知識チート / 図書館 / ファンタジー",
+        hero: "本棚で世界を殴る参謀",
+        synopsis: "転移先で任されたのは誰も読めない禁書庫。あなたは本に残された歴史の矛盾を読み解き、剣ではなく知識で国の危機をほどいていく。",
+        hook: "調べ物がそのまま必殺技になる気持ちよさ",
+        comment: "検索履歴だけでラスボスに近づく人",
+        colors: ["#a78bfa", "#facc15", "#171421"]
+      },
+      cook: {
+        code: "FOOD",
+        name: "異世界飯テロ料理人",
+        title: "屋台飯だけで辺境都市の胃袋を支配しました",
+        genre: "料理 / 商売 / 人情",
+        hero: "厨房から外交を動かす生活者",
+        synopsis: "剣も魔法も平凡なあなたが持ち込んだのは、ただの家庭料理。けれど温かい一皿は冒険者、貴族、魔族まで巻き込み、街の空気を変えていく。",
+        hook: "おいしさで関係がほどけていく安心感",
+        comment: "戦争より先に仕込み時間を気にする",
+        colors: ["#ef4444", "#f97316", "#211611"]
+      },
+      merchant: {
+        code: "COIN",
+        name: "成り上がり商人参謀",
+        title: "銅貨一枚から始める王国買収計画",
+        genre: "商会経営 / 内政 / 成り上がり",
+        hero: "感情も帳簿も読める交渉屋",
+        synopsis: "異世界で戦闘スキルを持たなかったあなたは、市場の歪みに目をつける。小さな取引を重ねるうち、商会は国の命綱になっていく。",
+        hook: "数字と交渉で盤面を取る快感",
+        comment: "善意にも見積書を添えるタイプ",
+        colors: ["#22c55e", "#eab308", "#101b13"]
+      },
+      blacksmith: {
+        code: "FORGE",
+        name: "伝説級鍛冶師",
+        title: "外れ鍛冶師、折れた聖剣を包丁に打ち直す",
+        genre: "鍛冶 / クラフト / 職人",
+        hero: "無口なこだわり過多クリエイター",
+        synopsis: "戦えない鍛冶師として軽んじられたあなたは、素材の声を聞く力を持っていた。修理した道具が、冒険者たちの運命を少しずつ変えていく。",
+        hook: "道具づくりが英雄譚を支える熱さ",
+        comment: "褒められるより工程を見てほしい人",
+        colors: ["#f97316", "#94a3b8", "#181512"]
+      },
+      beast: {
+        code: "BEAST",
+        name: "獣人国の通訳係",
+        title: "捨てられ通訳、獣人王にだけ本音が聞こえる",
+        genre: "獣人 / 交渉 / 恋愛ファンタジー",
+        hero: "空気を翻訳しすぎる仲裁役",
+        synopsis: "言葉が通じない獣人国へ送られたあなたは、なぜか本音だけを聞き取れる。誤解だらけの国境で、会話ひとつが戦争と恋を止めていく。",
+        hook: "言えない本音が少しずつ届くじれったさ",
+        comment: "場を丸くするほど自分の胃が削れる",
+        colors: ["#fb923c", "#38bdf8", "#1c1612"]
+      },
+      academy: {
+        code: "MAGIC",
+        name: "魔法学園の落第生",
+        title: "落第魔術師、補習で古代式を証明する",
+        genre: "魔法学園 / 努力 / 逆転",
+        hero: "納得するまで諦めない検証型主人公",
+        synopsis: "才能なしと判定されたあなたは、現代魔法に適性がないだけだった。補習室の片隅で古代式を再現し、学園の常識をひとつずつ塗り替える。",
+        hook: "努力と発見がきちんと報われる高揚感",
+        comment: "テスト範囲外で満点を取りにいく",
+        colors: ["#60a5fa", "#c084fc", "#121827"]
+      }
+    };
+
+    const questions = [
+      {
+        text: "朝起きたら知らない城のベッドでした。あなたは？",
+        choices: [
+          ["ステータス画面が出ないか試す", "cheat"],
+          ["部屋の構造と逃げ道を確認する", "occult"],
+          ["前回と違う点がないか記録する", "loop"],
+          ["本棚に世界設定の手がかりを探す", "librarian"]
+        ]
+      },
+      {
+        text: "仲間から『役に立ってない』と言われました。",
+        choices: [
+          ["実績を表にして淡々と渡す", "exile"],
+          ["笑って流しつつ別ルートを探す", "weakest"],
+          ["じゃあ自分で商売にするかと思う", "merchant"],
+          ["黙って工房に戻り改善案を試す", "blacksmith"]
+        ]
+      },
+      {
+        text: "巨大なドラゴンが現れました。最初の一手は？",
+        choices: [
+          ["弱点解析から入る", "cheat"],
+          ["まず餌で落ち着かせられるか試す", "tamer"],
+          ["視聴者に作戦名を募集する", "streamer"],
+          ["ドラゴンが守っているものを観察する", "beast"]
+        ]
+      },
+      {
+        text: "舞踏会で誰かがグラスを落としました。",
+        choices: [
+          ["場の空気ごと立て直す", "villainess"],
+          ["破片の飛び方に違和感を覚える", "occult"],
+          ["厨房に替えの飲み物を頼む", "cook"],
+          ["犯人探しより怪我人確認を優先する", "saint"]
+        ]
+      },
+      {
+        text: "新しい能力をひとつ選べるなら？",
+        choices: [
+          ["全体マップとログ閲覧", "cheat"],
+          ["どんな素材も加工できる手", "blacksmith"],
+          ["嘘を見抜く社交センス", "villainess"],
+          ["動物や魔物の本音がわかる耳", "beast"]
+        ]
+      },
+      {
+        text: "あなたの物語に一番ほしい読後感は？",
+        choices: [
+          ["うわ、全部つながった", "occult"],
+          ["ちゃんと報われてよかった", "saint"],
+          ["地味な工夫が勝った", "academy"],
+          ["あの料理、食べたい", "cook"]
+        ]
+      },
+      {
+        text: "異世界で最初に作る拠点は？",
+        choices: [
+          ["畑と作業場つきの小屋", "slowlife"],
+          ["防音配信部屋つきギルド支部", "streamer"],
+          ["書庫と実験室", "librarian"],
+          ["小さな屋台と仕込み場", "cook"]
+        ]
+      },
+      {
+        text: "敵に勝ったあと、あなたは？",
+        choices: [
+          ["なぜ敵対したのか原因を潰す", "cheat"],
+          ["証拠を保存して後で使う", "villainess"],
+          ["ドロップ品の用途を考える", "blacksmith"],
+          ["和解できる条件を探す", "beast"]
+        ]
+      },
+      {
+        text: "物語の相棒としてしっくりくるのは？",
+        choices: [
+          ["口が悪い古代魔導書", "exile"],
+          ["人間の常識を勉強中の魔物", "tamer"],
+          ["胃に優しい護衛騎士", "villainess"],
+          ["補習室で一緒に残る同級生", "academy"]
+        ]
+      },
+      {
+        text: "あなたが一番許せない展開は？",
+        choices: [
+          ["説明不足で味方が損をする", "saint"],
+          ["検証せずに才能を否定される", "exile"],
+          ["生活インフラを雑に扱われる", "slowlife"],
+          ["値切り交渉の余地を見ない", "merchant"]
+        ]
+      },
+      {
+        text: "タイトルに入れたい言葉は？",
+        choices: [
+          ["転生", "cheat"],
+          ["死に戻り", "loop"],
+          ["断罪", "villainess"],
+          ["禁書庫", "librarian"]
+        ]
+      },
+      {
+        text: "最終話のあなたはどうなっていたい？",
+        choices: [
+          ["世界を救ったのに普通に暮らす", "weakest"],
+          ["自分の店で昼寝している", "slowlife"],
+          ["大切な人と居場所を守っている", "saint"],
+          ["商会の看板を次の街に出す", "merchant"]
+        ]
+      }
+    ];
+
+    const state = {
+      index: 0,
+      answers: []
+    };
+
+    const startScreen = document.querySelector("#start-screen");
+    const questionScreen = document.querySelector("#question-screen");
+    const resultScreen = document.querySelector("#result-screen");
+    const startButton = document.querySelector("#start-button");
+    const backButton = document.querySelector("#back-button");
+    const againButton = document.querySelector("#again-button");
+    const progressLabel = document.querySelector("#progress-label");
+    const meterBar = document.querySelector("#meter-bar");
+    const questionTitle = document.querySelector("#question-title");
+    const choicesEl = document.querySelector("#choices");
+    const xShare = document.querySelector("#x-share");
+
+    function show(screen) {
+      [startScreen, questionScreen, resultScreen].forEach((item) => {
+        item.classList.toggle("is-active", item === screen);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderQuestion() {
+      const current = questions[state.index];
+      const number = state.index + 1;
+      progressLabel.textContent = `Q${number} / ${questions.length}`;
+      meterBar.style.width = `${(number / questions.length) * 100}%`;
+      questionTitle.textContent = current.text;
+      backButton.style.visibility = state.index === 0 ? "hidden" : "visible";
+      choicesEl.replaceChildren();
+
+      current.choices.forEach(([label, type]) => {
+        const button = document.createElement("button");
+        button.className = "choice";
+        button.type = "button";
+        button.textContent = label;
+        button.addEventListener("click", () => choose(type));
+        choicesEl.append(button);
+      });
+    }
+
+    function choose(type) {
+      state.answers[state.index] = type;
+      if (state.index < questions.length - 1) {
+        state.index += 1;
+        renderQuestion();
+        return;
+      }
+      renderResult();
+    }
+
+    function pickResult() {
+      const scores = Object.fromEntries(Object.keys(types).map((key) => [key, 0]));
+      state.answers.forEach((type, index) => {
+        scores[type] += 3;
+        if (index % 3 === 0) scores[type] += 1;
+      });
+      return Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+    }
+
+    function renderResult() {
+      const key = pickResult();
+      const result = types[key];
+
+      document.querySelector("#result-code").textContent = `RESULT / ${result.code}`;
+      document.querySelector("#result-badge").textContent = result.genre.split(" / ")[0];
+      document.querySelector("#result-name").textContent = result.name;
+      document.querySelector("#novel-title").textContent = result.title;
+      document.querySelector("#genre").textContent = result.genre;
+      document.querySelector("#hero-type").textContent = result.hero;
+      document.querySelector("#synopsis").textContent = result.synopsis;
+      document.querySelector("#hook").textContent = result.hook;
+      document.querySelector("#comment").textContent = result.comment;
+
+      const shareText = `私は「${result.name}」です\n${result.title}\nジャンル：${result.genre}\n#Web小説化診断`;
+      xShare.href = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+      show(resultScreen);
+    }
+
+    startButton.addEventListener("click", () => {
+      state.index = 0;
+      state.answers = [];
+      renderQuestion();
+      show(questionScreen);
+    });
+
+    backButton.addEventListener("click", () => {
+      if (state.index === 0) return;
+      state.index -= 1;
+      renderQuestion();
+    });
+
+    againButton.addEventListener("click", () => {
+      state.index = 0;
+      state.answers = [];
+      show(startScreen);
+    });
+  </script>
+</body>
+</html>

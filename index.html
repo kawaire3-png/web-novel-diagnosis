@@ -19,17 +19,17 @@
   <style>
     :root {
       color-scheme: light;
-      --bg: #f1f3ee;
+      --bg: #eef6fb;
       --panel: #ffffff;
-      --panel-soft: #f8faf6;
-      --text: #202420;
-      --muted: #666e65;
-      --line: #dfe5dc;
-      --accent: #ff4f2e;
-      --accent-2: #2f9d68;
-      --accent-3: #1f83b6;
+      --panel-soft: #f7fbfe;
+      --text: #1f2d3a;
+      --muted: #61717f;
+      --line: #d8e8f2;
+      --accent: #1f83b6;
+      --accent-2: #0b6fae;
+      --accent-3: #53a9d8;
       --paper: #ffffff;
-      --ink: #202420;
+      --ink: #1f2d3a;
       --radius: 24px;
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
     }
@@ -42,31 +42,14 @@
       min-height: 100vh;
       margin: 0;
       background:
-        linear-gradient(#ffffff 0 92px, transparent 92px),
-        radial-gradient(circle at 12% 20%, rgba(47, 157, 104, .08), transparent 24rem),
-        radial-gradient(circle at 86% 22%, rgba(31, 131, 182, .08), transparent 22rem),
+        radial-gradient(circle at 18% 8%, rgba(31, 131, 182, .10), transparent 26rem),
+        radial-gradient(circle at 86% 20%, rgba(83, 169, 216, .12), transparent 24rem),
         var(--bg);
       color: var(--text);
       display: grid;
       place-items: center;
-      padding: 130px 22px 22px;
+      padding: 22px;
       position: relative;
-    }
-
-    body::before {
-      content: "";
-      position: absolute;
-      top: 46px;
-      left: max(22px, calc(50% - 540px));
-      right: max(22px, calc(50% - 540px));
-      height: 36px;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background:
-        linear-gradient(90deg, var(--accent-2) 0 15%, transparent 15% 18%, var(--accent-3) 18% 34%, transparent 34%),
-        #fff;
-      box-shadow: 0 1px 0 rgba(32, 36, 32, .04);
-      pointer-events: none;
     }
 
     button,
@@ -95,14 +78,14 @@
       background: var(--panel);
       border-radius: var(--radius);
       border: 1px solid var(--line);
-      box-shadow: 0 18px 48px rgba(48, 62, 50, .12);
+      box-shadow: 0 18px 48px rgba(31, 84, 125, .14);
       padding: 20px;
       overflow: hidden;
     }
 
     .start-card {
       padding: 32px 20px 22px;
-      border-top: 5px solid var(--accent-2);
+      border-top: 5px solid var(--accent);
     }
 
     .eyebrow,
@@ -125,7 +108,7 @@
       font-size: 34px;
       line-height: 1.12;
       letter-spacing: 0;
-      color: #1f241f;
+      color: #1d2a36;
     }
 
     h2 {
@@ -133,7 +116,7 @@
       font-size: 27px;
       line-height: 1.35;
       letter-spacing: 0;
-      color: #1f241f;
+      color: #1d2a36;
     }
 
     .lead {
@@ -166,7 +149,7 @@
       background: var(--accent);
       color: white;
       font-size: 17px;
-      box-shadow: 0 7px 0 #d94225;
+      box-shadow: 0 7px 0 #0b5f94;
     }
 
     .primary:active,
@@ -178,7 +161,7 @@
 
     .note {
       margin-top: 16px;
-      color: #777f76;
+      color: #728391;
       font-size: 12px;
       line-height: 1.7;
     }
@@ -187,7 +170,7 @@
       width: 100%;
       height: 8px;
       border-radius: 999px;
-      background: #e3e8e0;
+      background: #dcecf5;
       overflow: hidden;
       margin-bottom: 20px;
     }
@@ -197,7 +180,7 @@
       width: 0;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--accent), #ff9f43);
+      background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
       transition: width .22s ease;
     }
 
@@ -216,13 +199,13 @@
       padding: 15px 18px;
       line-height: 1.45;
       min-height: 60px;
-      box-shadow: 0 3px 0 #e7ece4;
+      box-shadow: 0 3px 0 #e3eef5;
     }
 
     .choice:hover,
     .choice:focus-visible {
-      border-color: var(--accent-2);
-      background: #f6fbf7;
+      border-color: var(--accent);
+      background: #f3faff;
       outline: 0;
     }
 
@@ -236,7 +219,7 @@
       min-height: 38px;
       border-radius: 999px;
       padding: 0 18px;
-      color: #566056;
+      color: #526a7b;
       border: 1px solid var(--line);
       background: #fff;
       font-size: 14px;
@@ -254,11 +237,11 @@
     }
 
     .badge {
-      border: 1px solid #d8e4d7;
+      border: 1px solid #cae3f3;
       border-radius: 999px;
       padding: 6px 10px;
-      color: #287f57;
-      background: #eaf6ef;
+      color: #0b6fae;
+      background: #e8f5fc;
       font-size: 12px;
       font-weight: 900;
     }
@@ -302,7 +285,7 @@
     .synopsis {
       font-size: 15px;
       font-weight: 750;
-      color: #4d554e;
+      color: #4f6270;
     }
 
     .actions {
@@ -314,7 +297,7 @@
     .share {
       background: var(--accent);
       color: white;
-      box-shadow: 0 5px 0 #d94225;
+      box-shadow: 0 5px 0 #0b5f94;
     }
 
     .again {
@@ -326,7 +309,7 @@
 
     @media (max-width: 380px) {
       body {
-        padding: 118px 14px 14px;
+        padding: 14px;
       }
 
       .card,
